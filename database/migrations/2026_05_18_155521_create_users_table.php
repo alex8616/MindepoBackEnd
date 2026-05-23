@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
@@ -29,21 +26,23 @@ return new class extends Migration
 
             $table->timestamps();
 
-            /*
-            |--------------------------------------------------------------------------
-            | MOBILE APP
-            |--------------------------------------------------------------------------
-            */
+            // APP
 
             $table->string('telefono')
+                ->nullable();
+
+            $table->string('codigo_empleado')
+                ->nullable();
+
+            $table->string('cargo')
                 ->nullable();
 
             $table->boolean('activo')
                 ->default(true);
 
-            // DISPOSITIVO UNICO
+            // DISPOSITIVO
 
-            $table->text('device_id')
+            $table->string('device_id')
                 ->nullable();
 
             $table->string('device_name')
@@ -55,9 +54,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('users');
