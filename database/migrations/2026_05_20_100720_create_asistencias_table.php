@@ -12,80 +12,57 @@ return new class extends Migration
 
             $table->id();
 
-            // USER
+            // UUID generado por la APP
+            $table->uuid('uuid')
+                ->unique();
 
             $table->foreignId('user_id')
                 ->constrained()
-                ->onDelete('cascade');
+                ->cascadeOnDelete();
 
-            // TURNO
+            $table->enum('tipo', [
+                'Ingreso',
+                'Salida'
+            ]);
 
-            $table->foreignId('turno_id')
-                ->nullable()
-                ->constrained('turnos')
-                ->nullOnDelete();
-
-            // ESTADO
-
-            $table->foreignId('estado_id')
-                ->constrained('estados_asistencia');
-
-            // FECHA
-
+            // Hora del servidor
             $table->date('fecha');
 
-            // HORAS
+            $table->time('hora');
 
-            $table->time('hora_ingreso')
+            $table->dateTime('fecha_hora');
+
+            // GPS
+            $table->decimal('latitud', 11, 8)
                 ->nullable();
 
-            $table->time('hora_salida')
+            $table->decimal('longitud', 11, 8)
                 ->nullable();
 
-            $table->decimal('horas_extras', 5, 2)
-                ->default(0);
+            $table->decimal('precision_gps', 8, 2)
+                ->nullable();
 
-            // OBSERVACIÓN
-
+            // Observación
             $table->text('observacion')
                 ->nullable();
 
-            // GPS
+            // Estado del registro
+            $table->enum('estado', [
+                'Normal',
+                'Manual',
+                'Corregido',
+                'Revisar'
+            ])->default('Normal');
 
-            $table->decimal('latitud', 10, 7)
+            // Control de jornada
+            $table->boolean('cerrada')
+                ->default(false);
+
+            // Momento en que se sincronizó
+            $table->timestamp('fecha_sincronizacion')
                 ->nullable();
-
-            $table->decimal('longitud', 10, 7)
-                ->nullable();
-
-            // SELFIE
-
-            $table->string('foto')
-                ->nullable();
-
-            // DOCUMENTO
-
-            $table->string('documento')
-                ->nullable();
-
-            // APROBACIÓN
-
-            $table->enum('estado_aprobacion', [
-                'pendiente',
-                'aprobado',
-                'rechazado'
-            ])->default('pendiente');
 
             $table->timestamps();
-
-            // NO DUPLICAR
-
-            $table->unique([
-                'user_id',
-                'fecha',
-                'turno_id'
-            ]);
-
         });
     }
 

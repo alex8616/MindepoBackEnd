@@ -8,31 +8,31 @@ class Asistencia extends Model
 {
     protected $fillable = [
 
+        'uuid',
+
         'user_id',
 
-        'turno_id',
-
-        'estado_id',
+        'tipo',
 
         'fecha',
 
-        'hora_ingreso',
+        'hora',
 
-        'hora_salida',
-
-        'horas_extras',
-
-        'observacion',
+        'fecha_hora',
 
         'latitud',
 
         'longitud',
 
-        'foto',
+        'precision_gps',
 
-        'documento',
+        'observacion',
 
-        'estado_aprobacion',
+        'estado',
+
+        'cerrada',
+
+        'fecha_sincronizacion',
 
     ];
 
@@ -40,27 +40,18 @@ class Asistencia extends Model
 
         'fecha' => 'date',
 
+        'hora' => 'datetime:H:i:s',
+
+        'fecha_hora' => 'datetime',
+
+        'cerrada' => 'boolean',
+
+        'fecha_sincronizacion' => 'datetime',
+
     ];
 
     public function user()
     {
-        return $this->belongsTo(
-            User::class
-        );
-    }
-
-    public function turno()
-    {
-        return $this->belongsTo(
-            Turno::class
-        );
-    }
-
-    public function estado()
-    {
-        return $this->belongsTo(
-            EstadoAsistencia::class,
-            'estado_id'
-        );
+        return $this->belongsTo(User::class);
     }
 }

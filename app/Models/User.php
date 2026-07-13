@@ -61,8 +61,6 @@ class User extends Authenticatable
 
     public function asistencias()
     {
-        return $this->hasMany(
-            Asistencia::class
-        );
+        return $this->hasMany(Asistencia::class);
     }
 }   
